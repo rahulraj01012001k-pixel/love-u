@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kajal ❤️ Birthday Surprise</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(circle at top, #ff4d6d, #000000);
+    overflow: hidden;
+    color: white;
+    height: 100vh;
+  }
+
+  .screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    animation: glow 2s infinite alternate;
+    margin-bottom: 10px;
+  }
+
+  @keyframes glow {
+    from { text-shadow: 0 0 10px white; }
+    to { text-shadow: 0 0 30px #ff1e56; }
+  }
+
+  /* Improved Typing Container */
+  .message-container {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 80%;
+    margin-top: 20px;
+  }
+
+  .heart {
+    position: absolute;
+    color: pink;
+    pointer-events: none;
+    animation: float 5s linear forwards;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(100vh) scale(1); opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+  }
+
+  .cake {
+    width: 150px;
+    margin-top: 10px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.2);
+  }
+
+  #start-btn {
+    padding: 10px 20px;
+    background: #ff4d6d;
+    border: none;
+    color: white;
+    border-radius: 25px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+  }
+</style>
+</head>
+<body>
+
+<div id="overlay" class="screen" style="z-index: 10;">
+    <button id="start-btn">Click for a Surprise 🎁</button>
+</div>
+
+<div id="count" class="screen" style="display:none;">
+  <h2>⏳ Bas kuch seconds, Guriya...</h2>
+  <h1 id="timer">5</h1>
+</div>
+
+<div id="main" class="screen" style="display:none;">
+  <h1>🎉 Happy Birthday Guriya ❤️ 🎉</h1>
+  <img src="https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif" class="cake">
+  
+  <div class="message-container" id="typed-text"></div>
+</div>
+
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const message = "Kajal ❤️ (29 April 2005)...\nTum meri zindagi ka sabse khoobsurat hissa ho...\nTumhari hasi meri sabse badi weakness hai ❤️\nTumhare bina sab adhura lagta hai 💖\nI love you forever meri Guriya 🌹";
+
+const overlay = document.getElementById('overlay');
+const music = document.getElementById('music');
+const countScreen = document.getElementById('count');
+const mainScreen = document.getElementById('main');
+const timerDisplay = document.getElementById('timer');
+
+document.getElementById('start-btn').addEventListener('click', () => {
+    overlay.style.display = 'none';
+    countScreen.style.display = 'flex';
+    music.play();
+    startCountdown();
+});
+
+function startCountdown(){
+  let time = 5;
+  let t = setInterval(()=>{
+    time--;
+    timerDisplay.innerText = time;
+    if(time <= 0){
+      clearInterval(t);
+      countScreen.style.display='none';
+      mainScreen.style.display='flex';
+      startHearts();
+      typeWriter();
+    }
+  },1000);
+}
+
+function typeWriter() {
+    let i = 0;
+    const speed = 70; 
+    const container = document.getElementById("typed-text");
+    
+    function type() {
+        if (i < message.length) {
+            if (message.charAt(i) === "\n") {
+                container.innerHTML += "<br>";
+            } else {
+                container.innerHTML += message.charAt(i);
+            }
+            i++;
+            setTimeout(type, speed);
+        }
+    }
+    type();
+}
+
+function startHearts(){
+  setInterval(()=>{
+    let h = document.createElement('div');
+    h.classList.add('heart');
+    h.innerText='❤️';
+    h.style.left=Math.random()*100+'vw';
+    h.style.fontSize=(Math.random()*20+15)+'px';
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),5000);
+  },300);
+}
+
+window.addEventListener('click', (e)=>{
+  if(mainScreen.style.display === 'flex') {
+      let kiss = document.createElement('div');
+      kiss.innerText = '💋';
+      kiss.style.position = 'absolute';
+      kiss.style.left = e.clientX + 'px';
+      kiss.style.top = e.clientY + 'px';
+      kiss.style.fontSize = '30px';
+      kiss.style.transition = 'opacity 1s';
+      document.body.appendChild(kiss);
+      setTimeout(() => {
+          kiss.style.opacity = '0';
+          setTimeout(() => kiss.remove(), 1000);
+      }, 1000);
+  }
+});
+</script>
+</body>
+</html>
